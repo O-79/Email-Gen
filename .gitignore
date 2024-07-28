@@ -1,0 +1,5 @@
+# Testing
+test*.*
+
+# Node
+node_modules/
