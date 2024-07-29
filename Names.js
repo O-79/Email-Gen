@@ -1,4 +1,4 @@
-const _F_ =
+const LST_FIR =
 [
     "michael",
     "james",
@@ -102,7 +102,7 @@ const _F_ =
     "anna"
 ]
 
-const _L_ =
+const LST_SUR =
 [
     "smith",
     "johnson",
@@ -206,4 +206,4 @@ const _L_ =
     "foster"
 ]
 
-module.exports = { _F_, _L_ };
+module.exports = { LST_FIR, LST_SUR };

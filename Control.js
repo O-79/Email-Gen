@@ -1,11 +1,11 @@
 const puppeteer = require('puppeteer');
 const readline = require('readline');
-const { _F_, _L_ } = require('./Names');
+const { LST_FIR, LST_SUR } = require('./Names');
 
 let __LOOP__ = true;
 let __i__ = 1;
 
-function inc()
+function INC()
 {
     process.stdout.clearLine();
     process.stdout.cursorTo(0);
@@ -25,41 +25,41 @@ rl.on('close', () =>
     __LOOP__ = false;
 });
 
-function r(X, Y)
+function RDM(MIN, MAX)
 {
-    if(X > Y)
-        [X, Y] = [Y, X];
-    return Math.floor(Math.random() * (Y + 1 - X)) + X;
+    if(MIN > MAX)
+        [MIN, MAX] = [MAX, MIN];
+    return Math.floor(Math.random() * (MAX + 1 - MIN)) + MIN;
 }
 
-async function email()
+async function EMAIL()
 {
-    const F_X = r(0, _F_.length - 1);
-    const L_X = r(0, _L_.length - 1);
-    let F = _F_[F_X];
-    let L = _L_[L_X];
+    const IDX_FIR = RDM(0, LST_FIR.length - 1);
+    const IDX_SUR = RDM(0, LST_SUR.length - 1);
+    let FIR = LST_FIR[IDX_FIR];
+    let SUR = LST_SUR[IDX_SUR];
 
-    const _X_ = [ ".", "_", "" ]
-    const X_X = r(0, _X_.length - 1);
-    let X = _X_[X_X];
+    const LST_SEP = [ ".", "_", "" ]
+    const IDX_SEP = RDM(0, LST_SEP.length - 1);
+    let SEP = LST_SEP[IDX_SEP];
 
-    let N = "";
-    if(r(0, 1) > 0)
-        N = ((r(0, 3) == 0) ? "0" : "") + r(0, 99)
+    let NUM = "";
+    if(RDM(0, 1) > 0)
+        NUM = ((RDM(0, 3) == 0) ? "0" : "") + RDM(0, 99)
 
-    const _D_ = [ "@gmail.com", "@yahoo.com", "@outlook.com", "@hotmail.com", "@live.com", "@icloud.com", "@aol.com", "@protonmail.com", "@zoho.com", "@yandex.com", "@mail.com", "@yahoo.co.uk" ];
-    let D_X = Math.floor(r(0, _D_.length - 1) / (r(0, (_D_.length / 2) - 1) + 1));
-    let D = _D_[D_X];
+    const LST_DOM = [ "@gmail.com", "@yahoo.com", "@outlook.com", "@hotmail.com", "@live.com", "@icloud.com", "@aol.com", "@protonmail.com", "@zoho.com", "@yandex.com", "@mail.com", "@yahoo.co.uk" ];
+    let IDX_DOM = Math.floor(RDM(0, LST_DOM.length - 1) / (RDM(0, (LST_DOM.length / 2) - 1) + 1));
+    let DOM = LST_DOM[IDX_DOM];
 
-    if(r(0, 3) == 0)
-        [F, L] = [L, F];
+    if(RDM(0, 3) == 0)
+        [FIR, SUR] = [SUR, FIR];
 
     // first (seldom last)
     // optional separator
     // last (seldom first)
     // optional number
     // weighted domain
-    return `${F}${X}${L}${N}${D}`;
+    return `${FIR}${SEP}${SUR}${NUM}${DOM}`;
 }
 
 let __HIDE__ = false;
@@ -78,15 +78,15 @@ let __HIDE__ = false;
             await page.goto('https://xkcd.com/newsletter/', { waitUntil: 'networkidle2' });
 
             await page.waitForSelector('input[type="email"]');
-            E = await email()
+            E = await EMAIL()
             await page.type('input[type="email"]', E);
             await page.click('input[type="submit"][value="subscribe"]')
 
-            inc();
+            INC();
         }
-        catch (error)
+        catch (ERR)
         {
-            console.error('\n* ERROR > ', error);
+            console.error('\n* ERROR > ', ERR);
             process.exit(0);
         }
     }
